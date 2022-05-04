@@ -1,8 +1,8 @@
 random_seed: 42
 dataset_config {
   data_sources {
-    tfrecords_path: "/home/data/tfrecords/kitti_trainval/*"
-    image_directory_path: "/home/data/train"
+    tfrecords_path: "/tlt-demo/data/tfrecords/kitti_trainval/*"
+    image_directory_path: "/tlt-demo/data/kitti_dataset/train"
   }
   image_extension: "jpg"
   target_class_mapping {
@@ -15,8 +15,8 @@ dataset_config {
   }
   validation_fold: 0
   #validation_data_source: {
-    #tfrecords_path: "/home/data/tfrecords/kitti_val/*"
-    #image_directory_path: "/home/data/test"
+    #tfrecords_path: "/tlt-demo/data/tfrecords/kitti_val/*"
+    #image_directory_path: "/tlt-demo/data/kitti_dataset/test"
   #}
 }
 
@@ -69,7 +69,7 @@ postprocessing_config {
 }
 
 model_config {
-  pretrained_model_file: "/home/detectnet_v2/experiment_dir_pruned/resnet18_nopool_bn_detectnet_v2_pruned.tlt"
+  pretrained_model_file: "/tlt-demo/experiment/experiment_dir_pruned/resnet18_nopool_bn_detectnet_v2_pruned.tlt"
   num_layers: 18
   use_batch_norm: true
   load_graph: true
@@ -157,7 +157,7 @@ cost_function_config {
 
 training_config {
   batch_size_per_gpu: 24
-  num_epochs: 120
+  num_epochs: 100
   learning_rate {
     soft_start_annealing_schedule {
       min_learning_rate: 5e-06

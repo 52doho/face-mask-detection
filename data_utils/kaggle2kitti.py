@@ -47,8 +47,16 @@ class kaggle2kitti():
         img_w, img_h = img.size
         x_min, y_min, x_max, y_max = bbox
         ratio_w, ratio_h = dims[0] / img_w, dims[1] / img_h
-        new_bbox = [str(int(np.round(x_min * ratio_w))), str(int(np.round(y_min * ratio_h))), str(int(np.round(x_max * ratio_w))),
-                    str(int(np.round(y_max * ratio_h)))]
+        x_min = int(np.round(x_min * ratio_w))
+        x_max = int(np.round(x_max * ratio_w))
+        y_min = int(np.round(y_min * ratio_h))
+        y_max = int(np.round(y_max * ratio_h))
+        # NOTE: fixed
+        if x_max < x_min:
+            (x_min, x_max) = (x_max, x_min)
+        if y_max < y_min:
+            (y_min, y_max) = (y_max, y_min)
+        new_bbox = [str(x_min), str(y_min), str(x_max), str(y_max)]
         return new_bbox
 
     def get_data_attributes(self):

@@ -1,15 +1,21 @@
 import argparse
-
+import os
 class argparser_data2kitti():
     def __init__(self):
+        dir = os.path.dirname(__file__)
+        raw_dataset = os.path.join(dir, '../data/raw_dataset')
+        kitti_dataset = os.path.join(dir, '../data/kitti_dataset')
+
         self.parser = argparse.ArgumentParser(description='')
-        self.parser.add_argument('--kaggle-dataset-path', dest='kaggle_dataset_path',
+        self.parser.add_argument('--kaggle-dataset-path', dest='kaggle_dataset_path', default=os.path.join(raw_dataset, 'Kaggle-Medical-Mask-Dataset'),
                                  help='path to kaggle dataset train and validation images', type=str)
-        self.parser.add_argument('--mafa-dataset-path', dest='mafa_dataset_path',
+        self.parser.add_argument('--mafa-dataset-path', dest='mafa_dataset_path', default=os.path.join(raw_dataset, 'MAFA'),
                                  help='path to MAFA dataset train and validation images', type=str)
-        self.parser.add_argument('--fddb-dataset-path', dest='fddb_dataset_path', help='path to fddb dataset train and validation images', type=str)
-        self.parser.add_argument('--widerface-dataset-path', dest='widerface_dataset_path', help='path to widerface dataset train and validation images', type=str)
-        self.parser.add_argument('--kitti-base-path', dest='kitti_base_path',
+        self.parser.add_argument('--fddb-dataset-path', dest='fddb_dataset_path',  default=os.path.join(raw_dataset, 'FDDB'), 
+                                help='path to fddb dataset train and validation images', type=str)
+        self.parser.add_argument('--widerface-dataset-path', dest='widerface_dataset_path',  default=os.path.join(raw_dataset, 'WiderFace'),
+                                help='path to widerface dataset train and validation images', type=str)
+        self.parser.add_argument('--kitti-base-path', dest='kitti_base_path', default=kitti_dataset,
                                  help='path to save converted data set', type=str)
         self.parser.add_argument('--category-limit', dest='category_limit', default=6000,
                                  help='data limit for TLT', type=int)

@@ -62,8 +62,9 @@ class mafa2kitti():
                     categories.append(category_name)
                     bboxes.append(bbox)
             if bboxes:
-                if not self.check_image_dims(image_name=train_image_name):
-                    self.make_labels(image_name=train_image_name, category_names=categories,
+                # NOTE: fixed
+                # if not self.check_image_dims(image_name=train_image_name):
+                self.make_labels(image_name=train_image_name, category_names=categories,
                                              bboxes=bboxes)
 
         else:
@@ -90,8 +91,9 @@ class mafa2kitti():
                     categories.append(category_name)
                     _count_no_mask+1
             if bboxes:
-                if not self.check_image_dims(image_name=test_image_name):
-                    self.make_labels(image_name=test_image_name, category_names=categories, bboxes=bboxes)
+                # NOTE: fixed
+                # if not self.check_image_dims(image_name=test_image_name):
+                self.make_labels(image_name=test_image_name, category_names=categories, bboxes=bboxes)
         return _count_mask, _count_no_mask
 
     def check_image_dims(self, image_name):
@@ -123,8 +125,17 @@ class mafa2kitti():
     def resize_bbox(self, img, bbox, dims):
         img_w, img_h = img.size
         x_min, y_min, x_max, y_max = bbox
-        ratio_w, ratio_h = dims[0] / img_w, dims[1]/img_h
-        new_bbox = [str(int(np.round(x_min*ratio_w))), str(int(np.round(y_min*ratio_h))), str(int(np.round(x_max*ratio_w))), str(int(np.round(y_max *ratio_h)))]
+        ratio_w, ratio_h = dims[0] / img_w, dims[1] / img_h
+        x_min = int(np.round(x_min * ratio_w))
+        x_max = int(np.round(x_max * ratio_w))
+        y_min = int(np.round(y_min * ratio_h))
+        y_max = int(np.round(y_max * ratio_h))
+        # NOTE: fixed
+        if x_max < x_min:
+            (x_min, x_max) = (x_max, x_min)
+        if y_max < y_min:
+            (y_min, y_max) = (y_max, y_min)
+        new_bbox = [str(x_min), str(y_min), str(x_max), str(y_max)]
         return new_bbox
 
     def mat2data(self):
@@ -176,7 +187,7 @@ def main():
         mafa_base_dir = os.path.join(mafa_base_dir, 'test-images\images')
 
     category_limit = [25000, 25000] # Mask / No-Mask Limits
-    kitti_resize_dims = (480, 272) # Look at TLT model requirements
+    kitti_resize_dims = (960,544) # Look at TLT model requirements
     kitti_label = mafa2kitti(annotation_file=annotation_file, mafa_base_dir=mafa_base_dir,
                              kitti_base_dir=kitti_base_dir, kitti_resize_dims=kitti_resize_dims,
                              category_limit=category_limit, train=train)

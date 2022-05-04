@@ -1,5 +1,5 @@
 kitti_config {
-  root_directory_path: "/home/data/train"
+  root_directory_path: "/tlt-demo/data/kitti_dataset/train/"
   image_dir_name: "images"
   label_dir_name: "labels"
   image_extension: ".jpg"
